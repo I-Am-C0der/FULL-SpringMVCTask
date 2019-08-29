@@ -8,18 +8,17 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.springframework.stereotype.Component;
 
 import com.student.dao.QueryDao;
 
 /**
  * Servlet Filter implementation class Login
  */
-@Component
+@WebFilter(filterName="Filter", value="/*")
 public class Authenticate implements Filter {
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -37,6 +36,7 @@ public class Authenticate implements Filter {
 			if (session != null) {
 				String username = (String) session.getAttribute("username");
 				String password = (String) session.getAttribute("password");
+				System.out.println(username);
 				boolean correctCredentials = false;
 				correctCredentials = QueryDao.checkCredentials(username, password);
 

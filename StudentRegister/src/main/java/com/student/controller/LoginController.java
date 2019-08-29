@@ -15,25 +15,26 @@ import com.student.dao.QueryDao;
 
 @Controller
 public class LoginController {
-	
-	
-	@RequestMapping(value="/login", method=RequestMethod.GET)
+
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String showLoginPage() {
 		return "login";
 	}
-	
-	@RequestMapping(value="/loginpage", method=RequestMethod.POST)
-	public String loginCheck(HttpServletRequest request, HttpServletResponse response,@RequestParam String username, @RequestParam String password)
-			throws IOException {
-			HttpSession session = request.getSession();
-			session.setAttribute("username", username);
-			session.setAttribute("password", password);
-			boolean correctCredentials = false;
-			correctCredentials = QueryDao.checkCredentials(username, password);
-			if (correctCredentials)
+
+	@RequestMapping(value = "/loginpage", method = RequestMethod.POST)
+	public String loginCheck(HttpServletRequest request, HttpServletResponse response, @RequestParam String username,
+			@RequestParam String password) throws IOException {
+		HttpSession session = request.getSession();
+		session.setAttribute("username", username);
+		session.setAttribute("password", password);
+		boolean correctCredentials = false;
+		correctCredentials = QueryDao.checkCredentials(username, password);
+		if (correctCredentials)
 			return "home";
-			
+		else {
+			session.invalidate();
 			return "login";
-		
+		}
+
 	}
 }
